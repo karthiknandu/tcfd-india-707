@@ -6,10 +6,12 @@ with Proof-of-Concept Transportability to Nigeria, Bangladesh, Kenya, and Cambod
 
 ---
 
-[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://python.org)
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://python.org)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![DOI](https://img.shields.io/badge/DOI-10.2471%2FBLT.23.290854-green.svg)](https://doi.org/10.2471/BLT.23.290854)
 [![Walsh College DBA](https://img.shields.io/badge/Walsh%20College-DBA%20AI%2FML-navy.svg)](https://walshcollege.edu)
+[![arXiv](https://img.shields.io/badge/arXiv-Q3QXHE-red.svg)](https://arxiv.org)
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0005--7442--5364-green.svg)](https://orcid.org/0009-0005-7442-5364)
 
 ---
 
@@ -19,30 +21,40 @@ with Proof-of-Concept Transportability to Nigeria, Bangladesh, Kenya, and Cambod
 Lead Systems Engineer II, FORVIA Hella India Automotive Ltd, Pune  
 DBA Candidate (AI/ML) — Walsh College, USA & Deakin University, Australia  
 MSc Data Science — Deakin University  
-GL Mentor: Somak Sengupta  
 Supervisor: Prof. Javad Katibai, Walsh College  
+GL Mentor: Somak Sengupta  
+
+🔬 **ORCID:** [0009-0005-7442-5364](https://orcid.org/0009-0005-7442-5364)  
+💼 **LinkedIn:** [linkedin.com/in/karthikeyan-venkatesan1](https://linkedin.com/in/karthikeyan-venkatesan1)  
+📧 **Email:** kar.venkat@gmail.com  
+📌 **arXiv Endorsement Code:** Q3QXHE (cs.AI · econ.GN · stat.AP)
 
 ---
 
 ## Overview
 
-This repository contains the complete data pipeline, analytical notebook, and supporting code for the DBA capstone study applying the **Tripartite Causal Fairness Decomposition (TCFD)** framework to district-level health outcome inequality in India.
+This repository contains the complete 11-workbook analytical pipeline for the DBA capstone thesis applying the **Tripartite Causal Fairness Decomposition (TCFD)** framework to district-level health outcome inequality across 707 Indian districts.
 
 ### The TCFD Framework
 
-The TCFD classifies all causal pathways driving health inequality into three analytically distinct types:
+| Type | Category | Description | Districts | Policy Response |
+|------|----------|-------------|-----------|-----------------|
+| **Type I** | Structural-Physical | Geographic isolation, terrain, connectivity | ~120 | Infrastructure, telemedicine |
+| **Type II** | Historical Injustice | SC/ST exclusion, income inequality, caste gaps | ~263 | Redistributive policy, ASHA |
+| **Type III** | Policy-Actionable | PM-JAY gaps, ASHA vacancy — one budget cycle | ~190 | Enrollment drives, vacancy fill |
+| **Mixed** | Multi-Pathway | Compound deprivation | ~132 | Combined intervention |
 
-| Type | Category | Examples | Policy Implication |
-|------|----------|----------|-------------------|
-| **Type I** | Structural-Physical Constraints | Geographic remoteness, terrain, population density | Infrastructure investment, telemedicine |
-| **Type II** | Historically-Produced Injustice | Caste exclusion, gender discrimination, colonial gaps | Redistributive policy, ASHA density |
-| **Type III** | Policy-Actionable Levers | PM-JAY enrollment, institutional delivery, immunisation | Implementation reform, scheme expansion |
+### Key Results
 
-### Key Finding (Preliminary)
-- Median UHCd = **44.75%** (range: 26.42%–69.40%) across 707 districts
-- Type I (geography tax) dominates in **Thar Desert, Himalayan, and North-East** districts
-- Type III (policy) dominates in **South India and Maharashtra** — precisely where PM-JAY impact is largest
-- PM-JAY DiD ATT estimated at **+3–5 pp UHCd** in Type III-dominant clusters vs. minimal effect in Type I-dominant clusters
+| Metric | Value |
+|--------|-------|
+| National UHC median (NFHS-5) | 44.0 (Mukherji 2024 ✓) |
+| DiD ATT — PM-JAY causal effect | **+18.106 UHC points** |
+| Top SHAP feature (leakage-free) | NCD (0.312) |
+| LP districts selected (30% budget) | 400 districts |
+| Moran's I | > 0 — spatial clustering confirmed |
+| Control group (DiD) | 61 districts (Delhi 11 + Odisha 30 + WB 20) |
+| Countries tested | India · Nigeria · Bangladesh · Cambodia |
 
 ---
 
@@ -50,155 +62,399 @@ The TCFD classifies all causal pathways driving health inequality into three ana
 
 ```
 tcfd-india-707/
-├── data/
-│   ├── master_final_v3.csv          # 707 districts × 171 variables (primary dataset)
-│   ├── uhcd_extracted.csv           # UHCd scores extracted from Mukherji et al. 2024 PDF
-│   ├── gadm_geo_features.csv        # Geographic variables from GADM v4.1 shapefiles
-│   └── tcfd_taxonomy.json           # Variable → Type I/II/III classification
-├── notebooks/
-│   └── TCFD_Selfcontained.ipynb     # Complete analysis pipeline (43 cells)
-├── src/
+│
+├── notebooks/                              ← 11-workbook analysis pipeline
+│   ├── WB01_Foundation.ipynb               ← Data architecture and schema design
+│   ├── WB02_Foundation_S02.ipynb           ← Domain scores, UHC index, equity gaps
+│   ├── WB03_TCFD_Classification.ipynb      ← TCFD Type I/II/III assignment (H0-1, H0-2)
+│   ├── WB04_Disease_Burden.ipynb           ← DALY proxy + IHME indirect standardisation (H0-3)
+│   ├── WB05_Geographic_Analysis.ipynb      ← Moran's I + scatter maps (H0-4)
+│   ├── WB06_DiD_Causal.ipynb               ← PM-JAY DiD natural experiment (H0-5)
+│   ├── WB07_XGBoost_SHAP.ipynb             ← Leakage-free SHAP attribution (H0-6, H0-7)
+│   ├── WB08_Optimization.ipynb             ← LP/IP/Goal Programming (H0-8)
+│   ├── WB09_Nigeria_Transportability.ipynb ← Nigeria DHS transportability (H0-9 partial)
+│   ├── WB10_BD_KH_Transportability.ipynb   ← Bangladesh + Cambodia (H0-9 full)
+│   └── WB11_Final_Synthesis.ipynb          ← All hypotheses + policy matrix + arXiv
+│
+├── outputs/                                ← Pipeline output CSVs (generated by notebooks)
+│   ├── WB02_master_output.csv              ← 707 districts, 5 domains, equity gaps
+│   ├── WB03_TCFD_classified.csv            ← TCFD type assignments + DiD treatment flag
+│   ├── WB04_disease_burden.csv             ← DALY rates, burden index, population
+│   ├── WB05_geographic_analysis.csv        ← Centroids, Moran's I, UHC quartiles
+│   ├── WB06_DiD_results.csv                ← Delta UHC, NFHS-4 baseline, ATT
+│   ├── WB07_SHAP_results.csv               ← SHAP values per feature per district
+│   ├── WB08_optimization_results.csv       ← LP/IP/GP allocation results
+│   ├── WB09_Nigeria_TCFD.csv               ← Nigeria TCFD proxy distribution
+│   ├── WB10_transportability_results.csv   ← 4-country comparison table
+│   └── WB11_final_synthesis.csv            ← Final merged dataset, all columns
+│
+├── data/                                   ← Source CSVs (public, committed)
+│   ├── Source_1_RHS2022_ASHA_StateLevel.csv
+│   ├── Source_2_Census2011_SCST_District.csv
+│   ├── Source_3_NFHS4_StateLevel_Baseline.csv
+│   ├── Source_4_WHO_UHC_SCI_Comparators.csv
+│   ├── State_PMJAY_Enrolled_Opt_Out.csv
+│   ├── RS_Session_255_AU_1050.3.csv
+│   ├── ihme_gbd_india.csv
+│   └── paper_tables.csv
+│
+├── src/                                    ← Python modules
 │   ├── data_pipeline/
-│   │   ├── master_merge.py          # Builds master_final_v3.csv from 10 sources
-│   │   ├── uhcd_extractor.py        # Extracts UHCd from Mukherji et al. PDF
-│   │   ├── geo_features.py          # Computes geography tax from GADM shapefiles
-│   │   ├── pmjay_extractor.py       # PM-JAY state data from Parliament Q&A
-│   │   └── nha_extractor.py         # NHA DIU/cards/hospitals data
+│   │   ├── master_merge.py
+│   │   └── district_normaliser.py
 │   ├── models/
-│   │   ├── xgboost_shap.py          # Stage 1: XGBoost + SHAP attribution
-│   │   ├── did_estimator.py         # Stage 2: Callaway-Sant'Anna DiD
-│   │   ├── kmeans_clustering.py     # Stage 3: K-means on SHAP matrix
-│   │   └── transportability.py      # Stage 4: Cross-country TCFD validation
+│   │   ├── xgboost_shap.py
+│   │   ├── did_estimator.py
+│   │   ├── kmeans_clustering.py
+│   │   └── transportability.py
 │   └── utils/
-│       ├── district_normaliser.py   # Standardises district name joins
-│       └── validators.py            # Data quality validation checks
+│       └── validators.py
+│
 ├── docs/
-│   ├── data_dictionary.md           # Full 171-variable data dictionary
-│   ├── data_sources.md              # Source citations with URLs
-│   ├── tcfd_methodology.md          # TCFD framework specification
-│   └── validation_report.md        # 10-point data validation results
-├── results/
-│   ├── figures/                     # TCFD choropleth maps, SHAP plots
-│   └── tables/                      # Cluster profiles, DiD estimates
-├── tests/
-│   └── test_pipeline.py             # Unit tests for data pipeline
-├── requirements.txt
-├── environment.yml
+│   ├── data_sources.md
+│   ├── tcfd_methodology.md
+│   └── validation_report.md
+│
 ├── .gitignore
-└── README.md
+├── README.md
+├── requirements.txt
+└── environment.yml
 ```
 
----
-
-## Data Sources
-
-| Source | Coverage | Key Variables | Citation |
-|--------|----------|---------------|----------|
-| NFHS-5 (2019–21) | 707 districts | 109 health indicators | IIPS/MoHFW (2021) |
-| Mukherji et al. 2024 UHCd | 525/707 districts | UHCd, 5 domain scores | doi:10.2471/BLT.23.290854 |
-| PM-JAY (NHA/Parliament) | 36 States/UTs | Treatment flag, hospitalizations 2018–24 | NHA; data.gov.in RS-265 Q1723 |
-| IHME GBD 2023 | 32 states | DALY rates (2021) | vizhub.healthdata.org |
-| Census 2011 A-1 | 640/707 districts | Population, area, density | censusindia.gov.in |
-| GADM v4.1 Shapefiles | 580/707 districts | Area, compactness, remoteness | gadm.org (CC BY 4.0) |
-| NHA Annual Reports | 36 states | DIU, Ayushman cards, hospitals | nha.gov.in; Joseph et al. 2021 |
-| NFHS Policy Tracker | 115 districts | Boundary change flag | Appendix A |
-
-**Dataset note:** `master_final_v3.csv` is the primary analysis file (707 rows × 171 columns, 683 KB). Raw source files are not redistributed due to size; download links are in `docs/data_sources.md`.
+> **Note:** Raw DHS data folders, GADM shapefiles, and Excel source files are excluded
+> due to size and data access restrictions. See `docs/data_sources.md` for download instructions.
 
 ---
 
-## Installation
+## 9 Hypotheses Tested
+
+| # | Hypothesis | Test | Decision |
+|---|------------|------|----------|
+| H0-1 | TCFD types not distinct in UHC | One-Way ANOVA + Tukey HSD | **REJECT** F=44.7, p<0.001 |
+| H0-2 | SC/ST not predict Type II | Logistic Regression | **REJECT** |
+| H0-3 | Burden same across types | Kruskal-Wallis + Mann-Whitney | **REJECT** p=0.013 |
+| H0-4 | Moran's I = 0 (spatial random) | Moran's I 999-iter permutation | **REJECT** |
+| H0-5 | DiD ATT = 0 (PM-JAY no effect) | DiD OLS regression | **REJECT** ATT=18.1 pts |
+| H0-6 | SHAP profiles same across types | ANOVA on mean \|SHAP\| | **REJECT** |
+| H0-7 | NCD/ID not top SHAP feature | SHAP mean \|value\| ranking | **REJECT** NCD tops |
+| H0-8 | LP/IP = uniform allocation | Paired t-test | **REJECT** |
+| H0-9 | No cross-country transportability | Chi-square goodness-of-fit | Conditional ✓ |
+
+---
+
+## Capstone Presentation — Slide-by-Slide Summary
+
+> Source: `TCFD_Capstone.pptx` — DBA Capstone Updated Topic & Data Strategy
+
+---
+
+### Slide 1 — Title
+
+**Structural vs. Agential Causal Pathways to Health Outcome Inequality**  
+A Tripartite Causal Fairness Decomposition — India Proof-of-Concept + Global Seed
+
+- **707 districts** · **109 indicators** · **10 papers** · **4 countries**
+- Data: NFHS-5 (2019–21) · Census 2011 · Global Data Lab · WHO · UNICEF · IHME
+- Karthikeyan Venkatesan · DBA Candidate · Walsh College / Deakin University
+
+---
+
+### Slide 2 — QM 640 Capstone Process Alignment
+
+Maps all 6 required capstone stages to TCFD:
+
+| Stage | Requirement | TCFD Response |
+|-------|-------------|---------------|
+| 01 | Choose a Business Problem | Healthcare — UHC gap in India |
+| 02 | Define Research Questions | 5 RQs spanning Paths A, B, C, typology, PM-JAY DiD |
+| 03 | Determine Sample Size | n=707 districts — all 5 tests pass Green's Rule |
+| 04 | Collect Data | NFHS-5 (Mendeley) · Census 2011 · GADM · WHO UHC · IHME GBD |
+| 05 | Solve the Problem | PCA → G-comp · XGBoost + SHAP · K-means · Fairness metric |
+| 06 | Align Solution to Business | District typology · policy playbook · PM-JAY targeting · AER flagship |
+
+**Constraints check:** ✓ 10 weeks · ✓ All data public, no Kaggle · ✓ 5 RQs across spatial, causal, ML, and policy dimensions
+
+---
+
+### Slide 3 — Domain Exploration
+
+Systematic search across 10 domains and 15+ topics before convergence on Healthcare:
+
+| Domain | Verdict | Reason |
+|--------|---------|--------|
+| **Healthcare** | ✅ SELECTED | Only domain combining causal fairness + ML + policy + sufficient public district-level data |
+| Government & Public Policy | Partial | PM-JAY incorporated as natural experiment |
+| Finance and Banking | Rejected | District-level data too fragmented |
+| Education and EdTech | Rejected | ASER covers only 600 districts; no causal instrument |
+| Climate and Sustainability | Rejected | Satellite raster processing outside 10-week scope |
+| Manufacturing | Rejected | No district-level manufacturing microdata publicly available |
+| Retail / E-Commerce | Rejected | UPI data not at district level |
+| Transportation | Rejected | PMGSY missing required mediator variables |
+| Sports and Fitness | Rejected | No publicly available district-level data |
+| Media and Entertainment | Rejected | No district-level OTT/media data; Twitter API paywalled |
+
+---
+
+### Slide 4 — Five Research Questions
+
+| RQ | Question | Method | Paper |
+|----|----------|--------|-------|
+| RQ1 | Geography tax: how large is Path A? | G-computation NDE · OLS + AIPW · Bootstrap 95% CI | Paper ★ AER P&P |
+| RQ2 | Infrastructure gap: Path B contribution? | G-computation NIE-B · Product-of-coefficients · E-value sensitivity | Paper 4 Health Policy |
+| RQ3 | Empowerment gap: Path C and circularity? | G-computation NIE-C · Front-door criterion · Reverse mediation | Paper 5 Soc Sci Med |
+| RQ4 | Do typologies reveal distinct A:B:C profiles? | XGBoost + SHAP · K-means · Jaccard bootstrap · Kruskal-Wallis | Paper 3 PLOS ONE |
+| RQ5 | Does PM-JAY reduce the geography tax? | DiD · Callaway-Sant'Anna · Parallel trends · Event study | Paper ★ |
+
+---
+
+### Slide 5 — Sample Size Justification
+
+**n = 707 districts** — passes all 5 statistical power tests:
+
+| Test | Required n | India n | Status |
+|------|-----------|---------|--------|
+| Green's Rule (MLR) | 50 + 8×p = 50+8×109 = 922 → met at district level | 707 | ✓ |
+| G-computation (NDE) | 200–500 per arm | 707 | ✓ |
+| XGBoost (10-fold CV) | 500–1000 | 707 | ✓ |
+| K-means silhouette | 100+ per cluster | ~176 avg | ✓ |
+| DiD (parallel trends) | 50+ per group | 120+ | ✓ |
+
+---
+
+### Slide 6 — Data Sources
+
+**Already downloaded (Papers 1–9):**
+- NFHS-5 (ssrn_datasheet.xls) — 707 districts · 109 indicators
+- Census 2011 A-1 — 640 districts · population, density, area
+- India GADM shapefile — district boundaries
+- IHME GBD 2021 India subnational
+
+**Global alternatives (Paper 10 — DHS-independent):**
+- Global Data Lab — subnational HDI · Nigeria, Bangladesh, Kenya, Cambodia
+- WHO Inequality Monitor — RMNCH subnational by wealth quintile
+- UNICEF Data Explorer — child health, nutrition, vaccination
+- IHME GBD Results — NCD burden subnational for all 4 countries
+
+> All sources comply with QM 640 rules · No Kaggle · All publicly accessible · No proprietary data
+
+---
+
+### Slide 7 — Updated Topic Statement
+
+> *"Structural vs. Agential Causal Pathways to Health Outcome Inequality:  
+> A Tripartite Causal Fairness Decomposition of 707 Indian Districts using NFHS-5 (2019–21)  
+> with Proof-of-Concept Transportability to Nigeria, Bangladesh, Kenya and Cambodia  
+> using Global Data Lab + WHO + UNICEF + IHME"*
+
+| Element | Detail |
+|---------|--------|
+| Research Question | How much of the health gap is causally attributable to (A) geography penalty, (B) structural deficits, (C) empowerment deficits? |
+| Core Method | PCA → CHDI · G-computation (NDE/NIE) · XGBoost + SHAP · K-means · Counterfactual fairness |
+| Novel Contribution | First geographic causal fairness decomposition · Causal (not correlational) · Typology-conditional A:B:C ratio |
+
+---
+
+### Slide 8 — Data Strategy
+
+**DHS Programme status:** USAID eliminated funding Feb 2025. DHS is NOT a dependency — framework uses source-agnostic transportability from Day 1.
+
+| Dataset | Status | Papers Covered |
+|---------|--------|----------------|
+| NFHS-5 (ssrn_datasheet.xls) | ✅ In hand | Papers 1–9 core |
+| Census 2011 A-1 | ✅ In hand | All papers |
+| India GADM shapefile | ✅ Direct ZIP | Paper 2 |
+| IHME GBD 2021 subnational | ✅ Free account | Paper 9 |
+| Global Data Lab | ✅ No login, instant CSV | Paper 10 |
+| WHO Inequality Monitor | ✅ No login | Paper 10 |
+| UNICEF Data Explorer | ✅ No login | Paper 10 |
+
+---
+
+### Slide 9 — Structural Causal Model DAG
+
+Three causal paths from Geographic Origin (A) → Health Outcome (Y):
+
+```
+Geographic Origin (A)
+       │
+       ├──────────────────────────────→ Health Outcome (Y)   [Path A — Direct Effect]
+       │                                      ↑
+       ├── Structural Mediators (B) ──────────┤   [Path B — Infrastructure Gap]
+       │   Water · Sanitation · Electricity   │
+       │   Health insurance · ANC · OOP cost  │
+       │                                      │
+       └── Agential Mediators (C) ────────────┘   [Path C — Empowerment Gap]
+           Women literacy · Child marriage
+           Family planning · Sex ratio
+```
+
+> **Key insight:** Path C (empowerment) is itself *caused* by geographic disadvantage — making it also unfair, not truly agential. This circularity is the novel theoretical contribution.
+
+- **Theoretical basis:** Roemer (1998) equality-of-opportunity · Pearl (2000) do-calculus · Bareinboim (2022) transportability
+- **Sensitive attribute:** Geographic origin — *no one chooses their birthplace*
+
+---
+
+### Slide 10 — Three Causal Paths
+
+| | Path A — Direct Effect | Path B — Structural Mediation | Path C — Agential Mediation |
+|--|----------------------|------------------------------|------------------------------|
+| **Name** | The geography tax | The infrastructure gap | The empowerment gap |
+| **Mechanism** | Place → Outcome (residual after all mediation) | Place → Infrastructure → Outcome | Place → Education/Agency → Outcome |
+| **Measured as** | Natural Direct Effect (NDE) via g-computation | Natural Indirect Effect NIE-B | Natural Indirect Effect NIE-C |
+| **Meaning** | Same infrastructure, same education — worse outcomes just because of location | Flows through deficits in water, sanitation, electricity, ANC, insurance | Flows through women's literacy, child marriage, family planning |
+| **Addressable?** | ❌ Unfixable residual — requires place-based affirmative policy | ✅ Addressable by capital investment | ⚠️ Only effective after Path B addressed |
+| **SHAP role** | Residual after B+C attribution | Reveals which infrastructure deficits matter most | Path C caused by geography → also unfair |
+
+---
+
+### Slide 11 — Methodology Pipeline
+
+Six analytical stages — end-to-end reproducible, all code open-sourced:
+
+| Stage | Name | Description |
+|-------|------|-------------|
+| 01 | CHDI Construction | PCA on 18 outcome variables → Composite Health Deprivation Index. Validate with Cronbach α |
+| 02 | Geographic Zoning | Census 2011 population density quintiles (Q1–Q5) × 36 States/UTs = sensitive attribute encoding |
+| 03 | Causal Mediation | G-computation for NDE (Path A) and NIE (Paths B, C). Bootstrap 1,000 iterations. E-values for sensitivity |
+| 04 | XGBoost + SHAP | Train on all 109 indicators predicting CHDI (10-fold CV). Extract SHAP values per district |
+| 05 | K-means Typology | K-means on SHAP attribution matrix (707 × 109). Optimal k via elbow + silhouette. Jaccard bootstrap |
+| 06 | Fairness Decomposition | Compute A:B:C tripartite ratio per typology. Counterfactual gap with 95% CI |
+
+---
+
+### Slide 12 — 10-Paper Publication Strategy
+
+| # | Title | Data | Target Journal |
+|---|-------|------|----------------|
+| 1 | CHDI construction: PCA of 18 district-level health outcomes | NFHS-5 | SSM Population Health |
+| 2 | Geographic health inequality: spatial analysis of 707 Indian districts | NFHS-5 + Census + Shapefile | Health & Place |
+| 3 | District typologies in Indian health: K-means on SHAP attribution matrices | NFHS-5 (derived) | PLOS ONE |
+| 4 | The infrastructure gap: structural mediation of geographic health penalties (Path B) | NFHS-5 | Health Policy & Planning |
+| 5 | The empowerment gap: agential mediation + circularity argument (Path C) | NFHS-5 | Social Science & Medicine |
+| 6 | Urbanisation gradient in causal health pathways | NFHS-5 + Census | Urban Studies |
+| 7 | Tripartite Causal Fairness Decomposition: full synthesis paper | All India derived | Lancet Reg Health SE Asia |
+| ★ | **The geography tax: causal evidence on place-based health penalties** | NFHS-5 + WHO UHC | **AER Papers & Proceedings** |
+| 9 | NCD burden across district typologies [PhD 1] | NFHS-5 + IHME GBD | Lancet Diabetes Endocrinol |
+| 10 | TCFD transportability: 4-country replication [PhD 2] | GDL + WHO + UNICEF + IHME | PLOS Medicine |
+
+---
+
+### Slide 13 — Global Expansion (Paper 10)
+
+DHS unavailable → replaced with 4 free alternatives. All verified. No login required.
+
+| Country | Role | Data Sources |
+|---------|------|-------------|
+| **India** | DBA Proof-of-Concept | NFHS-5 + Census 2011 (in hand) |
+| **Nigeria** | West Africa anchor (36 states) | Global Data Lab · WHO · UNICEF · IHME GBD |
+| **Bangladesh** | South Asia comparator (8 divisions) | Global Data Lab · WHO · UNICEF · IHME GBD |
+| **Kenya** | UHC reform context (47 counties) | Global Data Lab · WHO · UNICEF · IHME GBD |
+| **Cambodia** | SE Asia anchor (25 provinces) | Global Data Lab · WHO · UNICEF · IHME GBD |
+
+> **PhD thesis question:** Are the A:B:C tripartite ratios stable across countries? → Bareinboim (2022) transportability test
+
+---
+
+### Slide 14 — Download Guide
+
+Papers 1–9 core data already in hand. Only 3 additional files needed:
+
+| Paper | File | URL |
+|-------|------|-----|
+| Paper 2 | India district shapefile (GADM Level 2) | https://gadm.org/download_country.html → India → Shapefile |
+| Paper 8 | WHO UHC Service Coverage Index CSV | https://data.who.int/indicators/i/3805B1E/9A706FD |
+| Paper 9 | IHME GBD 2021 India subnational NCD | https://vizhub.healthdata.org/gbd-results (free account) |
+
+---
+
+### Slide 15 — Four Dimensions of Novelty
+
+| Novel | Contribution | Significance |
+|-------|-------------|--------------|
+| **Novel 1** | Place as a protected attribute | First systematic application of geographic origin as sensitive attribute in health fairness — grounded in Roemer (1998). No one chooses their birthplace. |
+| **Novel 2** | Causal, not correlational decomposition | Applies Pearl's do-calculus (NDE/NIE via g-computation). SHAP makes causal paths interpretable at district level. Not just 'what' but 'why' and 'how much'. |
+| **Novel 3** | Typology-conditional A:B:C decomposition | K-means on SHAP matrices reveals district typologies where A:B:C ratio differs substantially. Cluster-specific causal decomposition is the methodological advance. |
+| **Novel 4** | Multi-source global transportability | Bareinboim (2022) transportability theory. India is proof-of-concept. PhD tests whether A:B:C ratios hold across Nigeria, Bangladesh, Kenya, Cambodia — DHS-source-independent. |
+
+---
+
+### Slide 16 — Summary
+
+> **One dataset. One framework. Ten papers. One PhD.**
+
+| Dimension | Status |
+|-----------|--------|
+| **Data ready** | NFHS-5 + Census 2011 in hand · Papers 1–9 fully covered · 3 small downloads remaining |
+| **Defensible** | Roemer + Pearl + Bareinboim — 3-layer theoretical foundation · first geographic causal fairness decomposition |
+| **DHS-independent** | Framework uses source-agnostic transportability · 4 free alternatives replace DHS for Paper 10 |
+| **PhD-seeded** | India is proof-of-concept · Global transportability test planned across 4 countries |
+
+---
+
+## Running the Notebooks
+
+### Prerequisites
 
 ```bash
-# Clone the repository
-git clone https://github.com/karthivenkatesan/tcfd-india-707.git
+git clone https://github.com/karthiknandu/tcfd-india-707.git
 cd tcfd-india-707
-
-# Create conda environment
-conda env create -f environment.yml
-conda activate tcfd-india
-
-# Or install with pip
 pip install -r requirements.txt
 ```
 
----
-
-## Quick Start
+### Add this cell at the top of each notebook
 
 ```python
-# Run the complete pipeline from scratch
-python src/data_pipeline/master_merge.py
-
-# Or open the self-contained notebook
-jupyter notebook notebooks/TCFD_Selfcontained.ipynb
+import os
+PROJECT_ROOT = os.path.abspath(os.path.join(os.getcwd(), '..'))
+os.chdir(PROJECT_ROOT)
+DATA_DIR   = os.path.join(PROJECT_ROOT, 'data')
+OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'outputs')
+print(f"Working directory: {os.getcwd()}")
 ```
 
-### Running Individual Stages
+### Run in order
 
-```python
-# Stage 1: XGBoost-SHAP attribution
-python src/models/xgboost_shap.py --data data/master_final_v3.csv --output results/
-
-# Stage 2: Callaway-Sant'Anna DiD
-python src/models/did_estimator.py --treatment pmjay_treatment_flag --outcome UHCd
-
-# Stage 3: K-means clustering on SHAP matrix
-python src/models/kmeans_clustering.py --k 5 --shap_matrix results/shap_matrix.npy
-
-# Stage 4: Transportability validation
-python src/models/transportability.py --countries NGA,BGD,KEN,KHM
 ```
-
----
-
-## Reproducibility
-
-All analyses use fixed random seeds:
-```python
-import numpy as np
-import random
-np.random.seed(42)
-random.seed(42)
-# XGBoost: random_state=42
-# K-means: random_state=42, n_init=10
+WB01 → WB02 → WB03 → WB04 → WB05 → WB06 → WB07 → WB08 → WB09 → WB10 → WB11
 ```
-
-Python version: 3.11.x  
-All package versions pinned in `requirements.txt`
 
 ---
 
 ## Citation
 
-If you use this code or data, please cite:
-
 ```bibtex
 @misc{venkatesan2026tcfd,
-  author       = {Karthikeyan Venkatesan},
-  title        = {Tripartite Causal Fairness Decomposition of 707 Indian Districts:
-                  Structural vs. Agential Causal Pathways to Health Outcome Inequality},
-  year         = {2026},
-  publisher    = {GitHub},
-  url          = {https://github.com/karthivenkatesan/tcfd-india-707},
-  note         = {DBA Capstone, Walsh College \& Deakin University}
+  author    = {Karthikeyan Venkatesan},
+  title     = {Tripartite Causal Fairness Decomposition of 707 Indian Districts:
+               Structural vs. Agential Causal Pathways to Health Outcome Inequality},
+  year      = {2026},
+  publisher = {GitHub},
+  url       = {https://github.com/karthiknandu/tcfd-india-707},
+  note      = {DBA Capstone, Walsh College \& Deakin University.
+               arXiv endorsement code: Q3QXHE.
+               ORCID: 0009-0005-7442-5364}
 }
 ```
 
-Also cite the primary UHCd data source:
-> Mukherji A, Rao M, Desai S, Subramanian SV, Kang G, Patel V. District-level monitoring of universal health coverage, India. *Bull World Health Organ* 2024;102:630–638B. doi:10.2471/BLT.23.290854
+Also cite the primary UHC data source:
+> Mukherji A, Rao M, Desai S, Subramanian SV, Kang G, Patel V.
+> District-level monitoring of universal health coverage, India.
+> *Bull World Health Organ* 2024;102:630–638B. doi:10.2471/BLT.23.290854
 
 ---
 
 ## Licence
 
-Code: MIT License  
-Data (master_final_v3.csv): CC BY 4.0  
-UHCd scores: CC BY IGO 3.0 (World Health Organization, per Mukherji et al. 2024)
+Code: MIT License · Data (`outputs/*.csv`): CC BY 4.0  
+UHC scores: CC BY IGO 3.0 (World Health Organization, per Mukherji et al. 2024)
 
 ---
 
 ## Contact
 
-Karthikeyan Venkatesan — kar.venkat@gmail.com  
+**Karthikeyan Venkatesan**  
+📧 kar.venkat@gmail.com  
+🔬 [ORCID: 0009-0005-7442-5364](https://orcid.org/0009-0005-7442-5364)  
+💼 [LinkedIn](https://linkedin.com/in/karthikeyan-venkatesan1)  
 Issues and pull requests welcome.
