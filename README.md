@@ -356,15 +356,24 @@ DHS unavailable → replaced with 4 free alternatives. All verified. No login re
 
 ---
 
-### Slide 14 — Download Guide
+### Slide 14 — Data Inventory
 
-Papers 1–9 core data already in hand. Only 3 additional files needed:
+All data for all 10 papers is now in hand. No further downloads required.
 
-| Paper | File | URL |
-|-------|------|-----|
-| Paper 2 | India district shapefile (GADM Level 2) | https://gadm.org/download_country.html → India → Shapefile |
-| Paper 8 | WHO UHC Service Coverage Index CSV | https://data.who.int/indicators/i/3805B1E/9A706FD |
-| Paper 9 | IHME GBD 2021 India subnational NCD | https://vizhub.healthdata.org/gbd-results (free account) |
+| Paper | Title (short) | Data Files | Status |
+|-------|---------------|------------|--------|
+| P1 | CHDI Construction | `ssrn_datasheet.xls` (NFHS-5 · 109 indicators) | ✅ In hand |
+| P2 | Geographic Spatial Analysis | `ssrn_datasheet.xls` + `A-1_NO_OF_VILLAGES...xlsx` (Census 2011) + `gadm41_IND_shp/` | ✅ In hand |
+| P3 | District Typologies — K-means on SHAP | `ssrn_datasheet.xls` (SHAP matrix derived in WB07) | ✅ In hand |
+| P4 | Infrastructure Gap — Path B | `ssrn_datasheet.xls` + `Source_3_NFHS4_StateLevel_Baseline.csv` | ✅ In hand |
+| P5 | Empowerment Gap — Path C | `ssrn_datasheet.xls` | ✅ In hand |
+| P6 | Urbanisation Gradient | `ssrn_datasheet.xls` + `A-1_NO_OF_VILLAGES...xlsx` (Census density) | ✅ In hand |
+| P7 | Full TCFD Synthesis | `All_Appendix_BCD.xlsx` + `ssrn_datasheet.xls` + `master_final_v5.xls` | ✅ In hand |
+| P★ | Geography Tax — AER P&P | `ssrn_datasheet.xls` + `Source_4_WHO_UHC_SCI_Comparators.csv` | ✅ In hand |
+| P9 | NCD Burden by Typology \[PhD 1\] | `ssrn_datasheet.xls` + `ihme_gbd_india.csv` | ✅ In hand |
+| P10 | TCFD Transportability \[PhD 2\] | `NGKR7BFL/` (Nigeria) + `BDKR81FL/` (Bangladesh) + `KHKR82FL/` (Cambodia) + `Source_1_RHS2022_ASHA_StateLevel.csv` + `Source_2_Census2011_SCST_District.csv` | ✅ In hand |
+
+> **All 10 papers fully data-ready as of April 2026.** Pipeline runs end-to-end on local data only.
 
 ---
 
