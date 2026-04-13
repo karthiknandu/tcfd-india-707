@@ -1,0 +1,4 @@
+population_group_id,population_group_name,measure_id,measure_name,location_id,location_name,sex_id,sex_name,age_id,age_name,cause_id,cause_name,metric_id,metric_name,year,val,upper,lower
+1,All Population,2,DALYs (Disability-Adjusted Life Years),163,India,3,Both,22,All ages,294,All causes,1,Number,2019,467095158.0196639,516033055.2814957,428093956.69690007
+1,All Population,2,DALYs (Disability-Adjusted Life Years),163,India,3,Both,22,All ages,294,All causes,2,Percent,2019,1.0,1.0,1.0
+1,All Population,2,DALYs (Disability-Adjusted Life Years),163,India,3,Both,22,All ages,294,All causes,3,Rate,2019,33604.19380530672,37124.929475064106,30798.33314632135

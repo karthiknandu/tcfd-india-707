@@ -1,0 +1,6 @@
+TCFD_Type,N,Mean_UHC,Median_UHC,Mean_UHC_Gap
+Mixed,125,42.86,42.18,57.14
+Type_I,131,39.86,39.36,60.14
+Type_II,141,44.96,43.18,55.04
+Type_III,309,47.34,46.64,52.66
+Unclassified,1,,,

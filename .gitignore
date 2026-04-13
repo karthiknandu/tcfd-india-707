@@ -1,0 +1,15 @@
+raw/ 
+*.xls 
+*.xlsx 
+*.pdf 
+*.pptx 
+*.dat 
+*.DAT 
+BDKR81FL/ 
+IAKR74FL/ 
+IAIR74FL/ 
+KHKR82FL/ 
+NGKR7BFL/ 
+gadm41_IND_shp/ 
+.ipynb_checkpoints/ 
+__pycache__/ 
